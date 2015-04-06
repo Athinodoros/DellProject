@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import layer2.domain.Controller;
 
 /**
  *
@@ -31,18 +33,30 @@ public class UIServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UIServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UIServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        HttpSession session = request.getSession();
+        Controller ctrl = (Controller) session.getAttribute("Controller");
+        if (ctrl == null) {
+            ctrl = Controller.getInstance();
+            session.setAttribute("Controller", ctrl);
+        }
+
+        String command = (String) request.getParameter("command");
+        switch (command) {
+            case "log-in":
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("<!DOCTYPE html>");
+                    out.println("<html>");
+                    out.println("<head>");
+                    out.println("<title>Servlet NewServlet</title>");
+                    out.println("</head>");
+                    out.println("<body>");
+                    out.println("<h1>Works, bro!! <br/> Servlet NewServlet at " + request.getContextPath() + "</h1>");
+                    out.println("</body>");
+                    out.println("</html>");
+                }
+                //validate credentials
+                break;
         }
     }
 

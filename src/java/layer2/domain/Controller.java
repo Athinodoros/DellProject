@@ -11,6 +11,17 @@ package layer2.domain;
  */
 public class Controller {
     
-    //dummy controller
+    private static Controller instance;
+    
+    public static Controller getInstance(){
+        if (instance == null) {
+            instance = new Controller();
+        }
+        return instance;
+    }
+    
+    private Controller(){
+        
+    }
     
 }
